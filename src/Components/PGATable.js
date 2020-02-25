@@ -61,7 +61,6 @@ export default function PGATable() {
 
     const handleUpdatePerson = (person) => {
         let dataCopy = [...people];
-        // let index = dataCopy.findIndex(obj => obj.id === person.id);
         dataCopy[editIndex] = person;
         updatePeople(sortPeople(dataCopy));
     };
@@ -146,10 +145,9 @@ export default function PGATable() {
             options: {
                 sort: false,
                 customBodyRender: (value, tableMeta, updateValue) => {
-                    const rowId = tableMeta.rowData[3];
                     return (
                         <Button variant="contained" color="secondary"
-                                onClick={() => deletePerson(rowId)}>Delete</Button>
+                                onClick={() => deletePerson(tableMeta.rowIndex)}>Delete</Button>
                     )
                 },
                 filter: false
@@ -167,8 +165,10 @@ export default function PGATable() {
         return p;
     }
 
-    function deletePerson(id) {
-        updatePeople(people.filter(person => person.id !== id));
+    function deletePerson(index) {
+        let p = [...people];
+        p.splice(index,1);
+        updatePeople(p);
     }
 
     function handleFirstNameChange(event) {
